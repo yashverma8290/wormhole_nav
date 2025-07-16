@@ -1,0 +1,10 @@
+build/
+install/
+log/
+*.db
+*.pyc
+__pycache__/
+.vscode/
+.ros/
+*.zip
+
