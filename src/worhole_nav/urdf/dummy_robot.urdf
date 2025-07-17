@@ -1,4 +1,0 @@
-<robot name="dummy_bot">
-  <link name="base_link"/>
-</robot>
-

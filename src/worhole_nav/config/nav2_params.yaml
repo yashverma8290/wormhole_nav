@@ -7,7 +7,7 @@ amcl:
     alpha4: 0.2
     base_frame_id: "base_link"
     global_frame_id: "map"
-    robot_model_type: "differential"
+    robot_model_type: "nav2_amcl::DifferentialMotionModel"  # ✅ FIXED
     odom_frame_id: "odom"
     scan_topic: "scan"
     update_min_d: 0.25
@@ -15,68 +15,7 @@ amcl:
     max_particles: 500
     min_particles: 200
 
-map_server:
+collision_monitor:
   ros__parameters:
     use_sim_time: false
-    yaml_filename: ""
-
-controller_server:
-  ros__parameters:
-    use_sim_time: false
-    controller_plugins: ["FollowPath"]
-    FollowPath:
-      plugin: "nav2_regulated_pure_pursuit_controller::RegulatedPurePursuitController"
-      desired_linear_vel: 0.5
-      lookahead_dist: 0.75
-
-planner_server:
-  ros__parameters:
-    expected_planner_frequency: 1.0
-    planner_plugins: ["GridBased"]
-    GridBased:
-      plugin: "nav2_navfn_planner::NavfnPlanner"
-      use_sim_time: false
-
-behavior_server:
-  ros__parameters:
-    use_sim_time: false
-    behavior_plugins: ["Spin", "Backup", "DriveOnHeading"]
-    Spin:
-      plugin: "nav2_behaviors::Spin"
-    Backup:
-      plugin: "nav2_behaviors::BackUp"
-    DriveOnHeading:
-      plugin: "nav2_behaviors::DriveOnHeading"
-
-bt_navigator:
-  ros__parameters:
-    use_sim_time: false
-    global_frame: "map"
-    robot_base_frame: "base_link"
-    default_bt_xml_filename: "navigate_w_replanning_and_recovery.xml"
-
-local_costmap:
-  ros__parameters:
-    use_sim_time: false
-    global_frame: "odom"
-    robot_base_frame: "base_link"
-    update_frequency: 5.0
-    publish_frequency: 2.0
-    rolling_window: true
-    width: 3.0
-    height: 3.0
-    resolution: 0.05
-    footprint: "[[0.2, 0.2], [0.2, -0.2], [-0.2, -0.2], [-0.2, 0.2]]"
-
-global_costmap:
-  ros__parameters:
-    use_sim_time: false
-    global_frame: "map"
-    robot_base_frame: "base_link"
-    update_frequency: 1.0
-    publish_frequency: 1.0
-    width: 10.0
-    height: 10.0
-    resolution: 0.05
-    footprint: "[[0.2, 0.2], [0.2, -0.2], [-0.2, -0.2], [-0.2, 0.2]]"
-
+    enabled: false  # ✅ RECOMMENDED: disable it for now
