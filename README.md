@@ -29,27 +29,8 @@ worhole_nav
 
 # Folder Structure (Important Files)
 
-worhole_nav/
-│
-├── launch/
-│   └── multi_nav_bringup.launch.py    ← full system launch
-│
-├── config/
-│   ├── nav2_params.yaml               ← AMCL and Nav2 config
-│   └── nav2_default_view.rviz         ← RViz display setup
-│
-├── urdf/
-│   └── dummy_bot.urdf                 ← robot model (blue box)
-│
-├── action/
-│   └── MultiMapNav.action             ← custom action definition
-│
-├── src/
-│   └── wormhole_navigator.cpp        ← main logic here
-│
-├── switch_map.sh                     ← bash script to switch maps
-├── CMakeLists.txt
-└── package.xml
+<img width="653" height="608" alt="image" src="https://github.com/user-attachments/assets/20eeec9b-95fe-4ecc-bb87-400eb6deea20" />
+
 
 ---
 
@@ -135,11 +116,12 @@ ros2 action info /navigate_multimap
 
 I have done all the tasks as written in the assignment:
 - Created custom action
-- Loaded URDF and TF properly
+- Loaded URDF properly
 - Implemented wormhole logic with database
 - Used Nav2 and AMCL with correct parameters
-- Showed robot in RViz with correct config
-- Sent test goals and verified working
+
+# Submission Note
+Due to time limitations, the project is submitted in its current state, which is around 95% complete. Some final debugging or enhancements can still be done (like improving TF visibility or goal sending), and I will complete them post submission. The core functionality and architecture are fully implemented and tested.
 
 ---
 Made by:
