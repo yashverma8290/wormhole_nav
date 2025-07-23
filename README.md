@@ -73,7 +73,7 @@ Goal accepted with ID: ...
   - RobotModel → Set Fixed Frame to map
   - TF → To see the transform tree
   - Map → Topic: /map
-  - LaserScan → Topic: /scan (optional)
+  - LaserScan →Topic: /scan (optional)
 
 # Then go to File → Save Config As and overwrite nav2_default_view.rviz inside config/ folder.
 
