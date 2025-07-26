@@ -45,7 +45,12 @@ install(DIRECTORY launch config urdf
   DESTINATION share/${PROJECT_NAME}
 )
 
-## Install helper script (if used)
+## ✅ Install the maps directory (this was missing)
+install(DIRECTORY maps
+  DESTINATION share/${PROJECT_NAME}
+)
+
+## Install helper script
 install(PROGRAMS switch_map.sh
   DESTINATION lib/${PROJECT_NAME}
 )

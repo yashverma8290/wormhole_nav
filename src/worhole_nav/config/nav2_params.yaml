@@ -7,7 +7,7 @@ amcl:
     alpha4: 0.2
     base_frame_id: "base_link"
     global_frame_id: "map"
-    robot_model_type: "nav2_amcl::DifferentialMotionModel"  # ✅ FIXED
+    robot_model_type: "nav2_amcl::DifferentialMotionModel"
     odom_frame_id: "odom"
     scan_topic: "scan"
     update_min_d: 0.25
@@ -15,7 +15,106 @@ amcl:
     max_particles: 500
     min_particles: 200
 
+map_server:
+  ros__parameters:
+    use_sim_time: false
+    yaml_filename: "/home/yash-verma/multi_map_ws/install/worhole_nav/share/worhole_nav/maps/room1.yaml"
+
+controller_server:
+  ros__parameters:
+    use_sim_time: false
+    controller_frequency: 20.0
+    controller_plugins: ["FollowPath"]
+    FollowPath:
+      plugin: "dwb_core::DWBLocalPlanner"
+      debug_trajectory_details: true
+      critics: ["RotateToGoal", "ObstacleFootprint", "GoalAlign", "PathAlign", "PathDist", "GoalDist"]
+      GoalDist.scale: 1.0
+      PathAlign.scale: 32.0
+      PathDist.scale: 32.0
+      GoalAlign.scale: 24.0
+      ObstacleFootprint.scale: 0.05
+      RotateToGoal.scale: 32.0
+    progress_checker_plugin: "progress_checker"
+    goal_checker_plugin: "goal_checker"
+    progress_checker:
+      plugin: "nav2_controller::SimpleProgressChecker"
+    goal_checker:
+      plugin: "nav2_controller::SimpleGoalChecker"
+
+planner_server:
+  ros__parameters:
+    use_sim_time: false
+    planner_plugins: ["GridBased"]
+    GridBased:
+      plugin: "nav2_navfn_planner/NavfnPlanner"
+      tolerance: 0.5
+
+bt_navigator:
+  ros__parameters:
+    use_sim_time: false
+    default_bt_xml_filename: "navigate_w_replanning_and_recovery.xml"
+    behavior_tree_plugins: ["nav2_behaviors/Spin", "nav2_behaviors/BackUp", "nav2_behaviors/Wait"]
+
+smoother_server:
+  ros__parameters:
+    use_sim_time: false
+    smoother_plugins: ["simple_smoother"]
+    simple_smoother:
+      plugin: "nav2_smoother::SimpleSmoother"
+
+local_costmap:
+  local_costmap:
+    ros__parameters:
+      use_sim_time: false
+      global_frame: "odom"
+      robot_base_frame: "base_link"
+      update_frequency: 5.0
+      publish_frequency: 2.0
+      resolution: 0.05
+      rolling_window: true
+      width: 3.0
+      height: 3.0
+      footprint: "[[0.2, 0.2], [0.2, -0.2], [-0.2, -0.2], [-0.2, 0.2]]"
+      plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
+      static_layer:
+        plugin: "nav2_costmap_2d::StaticLayer"
+      obstacle_layer:
+        plugin: "nav2_costmap_2d::ObstacleLayer"
+      inflation_layer:
+        plugin: "nav2_costmap_2d::InflationLayer"
+
+global_costmap:
+  global_costmap:
+    ros__parameters:
+      use_sim_time: false
+      global_frame: "map"
+      robot_base_frame: "base_link"
+      update_frequency: 1.0
+      publish_frequency: 1.0
+      resolution: 0.05
+      plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
+      static_layer:
+        plugin: "nav2_costmap_2d::StaticLayer"
+      obstacle_layer:
+        plugin: "nav2_costmap_2d::ObstacleLayer"
+      inflation_layer:
+        plugin: "nav2_costmap_2d::InflationLayer"
+
 collision_monitor:
   ros__parameters:
     use_sim_time: false
-    enabled: false  # ✅ RECOMMENDED: disable it for now
+    enabled: false
+
+lifecycle_manager:
+  ros__parameters:
+    use_sim_time: false
+    autostart: true
+    node_names:
+      - controller_server
+      - planner_server
+      - smoother_server
+      - behavior_server
+      - bt_navigator
+      - map_server
+      - amcl

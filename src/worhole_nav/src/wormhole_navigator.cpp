@@ -20,7 +20,8 @@ public:
     using GoalHandle = rclcpp_action::ServerGoalHandle<MultiMapNav>;
 
     WormholeNavigator() : Node("wormhole_navigator") {
-        nav_client_ = rclcpp_action::create_client<NavigateToPose>(this, "navigate_to_pose");
+        // ✅ FIX: Use absolute topic name
+        nav_client_ = rclcpp_action::create_client<NavigateToPose>(this, "/navigate_to_pose");
 
         action_server_ = rclcpp_action::create_server<MultiMapNav>(
             this,
